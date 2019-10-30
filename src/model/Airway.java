@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -19,9 +21,6 @@ public class Airway extends Thread {
 
     @Override
     public void run() {
-//        while (true) {
-//            if(planes.size() > 0)
-//        }
     }
 
     public long getAirwayId() {
@@ -66,7 +65,7 @@ public class Airway extends Thread {
 
     @Override
     public String toString() {
-        return "Airway{" +
+        return "model.Airway{" +
                 "airwayId=" + airwayId +
                 ", height=" + height +
                 ", flighTime=" + flighTime +

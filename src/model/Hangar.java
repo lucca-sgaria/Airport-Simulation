@@ -1,3 +1,7 @@
+package model;
+
+import util.PlaneState;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;

@@ -1,3 +1,7 @@
+package model;
+
+import util.RunwayFunction;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
@@ -67,7 +71,7 @@ public class Runway {
 
     @Override
     public String toString() {
-        return "Runway{" +
+        return "model.Runway{" +
                 "runwayId=" + runwayId +
                 ", usageTime=" + usageTime +
                 ", function=" + function +

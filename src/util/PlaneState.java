@@ -1,3 +1,5 @@
+package util;
+
 public class PlaneState {
     public static final String CREATED = "Criado";
     public static final String WAITTAKEOFF = "Fila de Decolagem";

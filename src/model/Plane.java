@@ -1,9 +1,11 @@
+package model;
+
+import util.PlaneState;
+
 public class Plane extends Thread {
 
     private long planeId;
     private String planeState = PlaneState.CREATED;
-//    private int numLandings;
-//    private int numTakeoffs;
     private Airport airport;
 
     public Plane(long planeId, Airport airport) {
@@ -15,18 +17,14 @@ public class Plane extends Thread {
     @Override
     public void run() {
 
-        //System.out.println("Plane started - > " + toString());
         try {
             sleep(3000);
-//            if(this.planeId == 2) sleep(8000);
 
             long waitTime = 0;
             while (true) {
 
                 if (planeState == PlaneState.CREATED) {
-//                    System.out.println("Vou enviar para mais alta"+planeId);
                     waitTime = airport.sendToHighestAirway(this);
-//                    System.out.println("Enviei para mais alta"+planeId);
                     this.planeState = PlaneState.FLYING;
 
                 } else if (planeState == PlaneState.FLYING) {
@@ -56,7 +54,7 @@ public class Plane extends Thread {
                     waitTime = airport.sendToAirway(this);
                     this.planeState = PlaneState.FLYING;
                 } else {
-//                    System.out.println("Waiting hangar");
+
                     sleep(20000);
                 }
             }

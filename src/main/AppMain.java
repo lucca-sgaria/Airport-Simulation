@@ -1,3 +1,12 @@
+package main;
+
+import model.Airport;
+import model.Airway;
+import model.Plane;
+import model.Runway;
+import util.Constants;
+import util.RunwayFunction;
+
 public class AppMain {
     public static void main(String[] args) {
 
@@ -19,7 +28,6 @@ public class AppMain {
             for (Plane plane : airport.getPlanes()) {
                 plane.join();
             }
-
 
 
         } catch(Exception e) {
@@ -49,8 +57,8 @@ public class AppMain {
 
     private static void createRunways(Airport airport) {
         for (int i = 0; i < Constants.RUNWAYPAIR; i++) {
-            Runway runwayLand = new Runway(i+1,10000,RunwayFunction.LAND);
-            Runway runwayTakeoff = new Runway(i+2,10000,RunwayFunction.TAKEOFF);
+            Runway runwayLand = new Runway(i+1,10000, RunwayFunction.LAND);
+            Runway runwayTakeoff = new Runway(i+2,10000, RunwayFunction.TAKEOFF);
 
             airport.addRunwayLanding(runwayLand);
             airport.addRunwayTakeoff(runwayTakeoff);

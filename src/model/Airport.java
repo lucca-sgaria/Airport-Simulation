@@ -1,3 +1,5 @@
+package model;
+
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -65,13 +67,10 @@ public class Airport extends Thread {
                 .max(Comparator.comparing(Airway::getHeight))
                 .orElse(null);
 
-//        System.out.println("Pegando semaphore mais alto=="+plane.getPlaneId());
         try {
             semaphoreAirwayHighest.acquire();
-//            System.out.println("Peguei sempahore alto=="+plane.getPlaneId());
             next.addPlane(plane);
             semaphoreAirwayHighest.release();
-//            System.out.println("Liberei semaphore mais alto"+plane.getPlaneId());
         }catch (InterruptedException ex) {
             ex.printStackTrace();
         }
@@ -89,12 +88,8 @@ public class Airport extends Thread {
                 .orElse(null);
 
         try {
-//            System.out.println("Pegando sempahoro airway mais baixa="+plane.getPlaneId());
-//            System.out.println("nextAirway = " + nextAirway.toString());
             nextAirway.getSemaphore().acquire();
-//            System.out.println("peguei semaphore baixa="+plane.getPlaneId());
             nextAirway.addPlane(plane);
-//            System.out.println("vou liberar semaphore baixa="+plane.getPlaneId());
             nextAirway.getSemaphore().release();
 
         } catch (InterruptedException e) {
@@ -113,10 +108,7 @@ public class Airport extends Thread {
         Runway runway = runwaysLanding.get(0);
 
         try {
-//            System.out.println("Pegando sempahoro pouso mais baixa="+plane.getPlaneId());
-//            System.out.println("pouso = " + runway.toString());
             runway.getSemaphore().acquire();
-//            System.out.println("peguei semaphore pouso="+plane.getPlaneId());
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -130,7 +122,6 @@ public class Airport extends Thread {
     public void sendToHangar(Plane plane) {
 
         this.runwaysLanding.get(0).removePlane(plane);
-//        System.out.println("vou liberar pista de pouso=" + plane.getPlaneId());
         this.runwaysLanding.get(0).getSemaphore().release();
 
         this.hangar.addPlane(plane);
@@ -171,22 +162,6 @@ public class Airport extends Thread {
 
         return runway.getUsageTime();
     }
-
-//    private Runway findPlaneInRunway(Plane plane) {
-//        Runway runway = this.runwaysLanding
-//                .stream()
-//                .filter(way -> way.getPlanes().contains(plane))
-//                .findFirst().orElse(null);
-//
-//        if (runway != null) {
-//            runway = this.runwaysTakeoff
-//                    .stream()
-//                    .filter(way -> way.getPlanes().contains(plane))
-//                    .findFirst().orElse(null);
-//        }
-//
-//        return runway;
-//    }
 
     public List<Plane> getPlanes() {
         return planes;
@@ -230,7 +205,7 @@ public class Airport extends Thread {
 
     @Override
     public String toString() {
-        return "Airport{" +
+        return "model.Airport{" +
                 "runwaysLanding=" + runwaysLanding +
                 ", runwaysTakeoff=" + runwaysTakeoff +
                 ", airways=" + airways +
