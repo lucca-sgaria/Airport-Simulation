@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
+import java.util.stream.Collectors;
 
 public class Runway {
     private long runwayId;
@@ -7,10 +9,20 @@ public class Runway {
     private List<Plane> planes = new ArrayList<>();
     private int function = RunwayFunction.TAKEOFF;
 
+    private Semaphore semaphore = new Semaphore(1);
+
     public Runway(long runwayId, long usageTime, int function) {
         this.runwayId = runwayId;
         this.usageTime = usageTime;
         this.function = function;
+    }
+
+    public void addPlane(Plane plane) {
+        this.planes.add(plane);
+    }
+
+    public void removePlane(Plane plane) {
+        this.planes.remove(plane);
     }
 
     public long getRunwayId() {
@@ -45,21 +57,36 @@ public class Runway {
         this.function = function;
     }
 
+    public Semaphore getSemaphore() {
+        return semaphore;
+    }
+
+    public void setSemaphore(Semaphore semaphore) {
+        this.semaphore = semaphore;
+    }
+
     @Override
     public String toString() {
         return "Runway{" +
                 "runwayId=" + runwayId +
                 ", usageTime=" + usageTime +
-                ", planes=" + planes +
                 ", function=" + function +
+                ", semaphore=" + semaphore +
                 '}';
     }
 
-    public void addPlane(Plane plane) {
-        this.planes.add(plane);
+    @SuppressWarnings("Duplicates")
+    public String toPrintString() {
+        String str = "Pista " + (function ==2 ? " de Pouso " : "de Decolagem");
+        str += " - aviões [ ";
+        str += planes
+                .stream()
+                .map(plane -> "[" + plane.getPlaneId()
+                        + ";" + plane.getPlaneState() + "] ")
+                .collect(Collectors.joining(" - "));
+        str+= "].";
+        return str;
     }
 
-    public void removePlane(Plane plane) {
-        this.planes.remove(plane);
-    }
+
 }

@@ -1,11 +1,17 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Hangar extends Thread {
 
     private long hangarId = 0;
     private List<Plane> planes = new ArrayList<>();
     private Airport airport;
+
+    public Hangar(Airport airport) {
+        super();
+        this.airport = airport;
+    }
 
     public long getHangarId() {
         return hangarId;
@@ -23,6 +29,14 @@ public class Hangar extends Thread {
         this.planes = planes;
     }
 
+    public Airport getAirport() {
+        return airport;
+    }
+
+    public void setAirport(Airport airport) {
+        this.airport = airport;
+    }
+
     public void addPlane(Plane plane) {
         this.planes.add(plane);
     }
@@ -37,6 +51,7 @@ public class Hangar extends Thread {
                 if(planes.size() > 0) {
                     plane = planes.get(0);
                     if(plane.getPlaneState() == PlaneState.WAITTAKEOFF) {
+                        airport.getRunwaysTakeoff().get(0).getSemaphore().acquire();
                         plane.setPlaneState(PlaneState.READYTAKEOFF);
                     }
                 }
@@ -44,5 +59,18 @@ public class Hangar extends Thread {
             }
         } catch (InterruptedException e) {
         }
+    }
+
+    @SuppressWarnings("Duplicates")
+    public String toPrintString() {
+        String str = "Hangar ";
+        str += " - aviões [ ";
+        str += planes
+                .stream()
+                .map(plane -> "[ id=" + plane.getPlaneId()
+                        + ";" + plane.getPlaneState() + "] ")
+                .collect(Collectors.joining(" - "));
+        str+= "].";
+        return str;
     }
 }

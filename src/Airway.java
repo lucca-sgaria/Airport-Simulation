@@ -1,11 +1,15 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Semaphore;
+import java.util.stream.Collectors;
 
 public class Airway extends Thread {
     private long airwayId;
     private long height;
     private long flighTime;
     private List<Plane> planes = new ArrayList<>();
+
+    private Semaphore semaphore = new Semaphore(1);
 
     public Airway(long airwayId, long height, long flighTime) {
         this.airwayId = airwayId;
@@ -52,15 +56,39 @@ public class Airway extends Thread {
         this.planes = planes;
     }
 
+    public Semaphore getSemaphore() {
+        return semaphore;
+    }
+
+    public void setSemaphore(Semaphore semaphore) {
+        this.semaphore = semaphore;
+    }
+
     @Override
     public String toString() {
         return "Airway{" +
                 "airwayId=" + airwayId +
                 ", height=" + height +
                 ", flighTime=" + flighTime +
-                ", planes=" + planes +
+                ", semaphore=" + semaphore +
                 '}';
     }
+
+    @SuppressWarnings("Duplicates")
+    public String toPrintString() {
+        String str = "Estrada " + airwayId;
+        str += " - altura " + height;
+//        str += " - tempo de voo " + flighTime;
+        str += " - aviões [ ";
+        str += planes
+                .stream()
+                .map(plane -> "[" + plane.getPlaneId()
+                              + ";" + plane.getPlaneState() + "] ")
+                .collect(Collectors.joining(" - "));
+        str+= "].";
+        return str;
+    }
+
 
     public void addPlane(Plane plane) {
         this.planes.add(plane);

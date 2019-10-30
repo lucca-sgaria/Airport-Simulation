@@ -28,7 +28,7 @@ public class AppMain {
     }
 
     private static void createAirways(Airport airport) {
-        int currentHeight = 6000;
+        int currentHeight = 3000;
         int currentFlightTime = 10000;
         for (int i = 0; i < Constants.AIRWAYAMOUNT; i++) {
             Airway airway = new Airway(i+1,currentHeight,currentFlightTime);
